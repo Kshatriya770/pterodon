@@ -1,21 +1,21 @@
 /*
-    Pterodon - device driver
+    Pterodon Recovery - device driver
     Copyright (C) <2020> ATGDroid <bythedroid@gmail.com>
 
-    This file is part of Pterodon Recovery
+    This file is part of Pterodon Recovery Project
 
-    Pterodon is free software: you can redistribute it and/or modify
+    Pterodon Recovery is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Pterodon is distributed in the hope that it will be useful,
+    Pterodon Recovery is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Pterodon.  If not, see <http://www.gnu.org/licenses/>.
+    along with Pterodon Recovery.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
@@ -512,12 +512,9 @@ if (value > 0) {
 }
 
 void DeviceDriver::ToggleLeds(void) {
-for (const std::string leds_rgb : {"blue", "green", "red"}) {
+for (const std::string leds_rgb : {"charging", "red", "green", "blue"}) {
 std::string led_path = "/sys/class/leds/" + leds_rgb;
-std::string full_path = led_path + "/blink";
-if (!Pterodon::Framework::PathExists(full_path))
-     continue;
-full_path = led_path + "/brightness";
+std::string full_path = led_path + "/brightness";
 if (!Pterodon::Framework::PathExists(full_path)) continue;
 int value = 0;
 if (!read_sysfs_entry_int(full_path.c_str(), 16, &value))
@@ -593,7 +590,7 @@ void DeviceDriver::FixTime(void) {
     const char *paths[] = {"/data/system/time/", "/data/time/", "/data/vendor/time/", "/persist/time/"};
     char ats_path[PATH_MAX] = "";
     DIR *d;
-    uint64_t offset = 0;
+    unsigned long offset = 0;
     struct timeval tv;
     struct dirent *dt;
 

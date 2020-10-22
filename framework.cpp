@@ -207,7 +207,7 @@ LOGW("io_blksize: Failed to fstat fd! (%s)", strerror(errno));
 return ret;
 }
 /* if the optimal read/write value from st_blksize is bigger than 128KB, then use it */
-if (st.st_blksize > ret)
+if ((unsigned long)st.st_blksize > (unsigned long)ret)
 ret = st.st_blksize;
 /* caller is expected to already log some current active process,
 *   so that this info isn't completely useless                                     */
